@@ -1,23 +1,45 @@
 {
   "name": "react-nested-routes-example",
   "version": "0.0.0",
-  "homepage": "https://sneas.github.io/react-nested-routes-example",
+  "main": "electron/main.js",
+  "homepage": "./",
   "dependencies": {
+    "electron-is-dev": "^2.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1"
   },
   "devDependencies": {
-    "gh-pages": "^2.1.1"
+    "concurrently": "^6.4.0",
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5",
+    "gh-pages": "^2.1.1",
+    "wait-on": "^5.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build -m 'Automatically update gh-pages [skip ci]'",
-    "prettify": "prettier src/* --write"
+    "build-electron": "react-scripts build",
+    "prettify": "prettier src/* --write",
+    "electron:start": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "yarn build-electron && electron-builder build --publish never"
+  },
+  "build": {
+    "appId": "com.holberg-test",
+    "productName": "React Electron App",
+    "files": [
+      "build/**/*",
+      "electron/main.ts",
+      "electron/main.js",
+      "package.json"
+    ],
+    "extends": null,
+    "mac": {
+      "type": "distribution"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
